@@ -57,3 +57,8 @@ Luego de haber realizado la investigación anterior, se formuló el siguiente di
 ## Diagrama de Poincaré
 <p align="center">
 <img src="Ponicaré.png" width="400">
+
+## Resultados obtenidos 
+<p align="center">
+<img src="tabla.png" width="400">
+
