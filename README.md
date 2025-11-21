@@ -40,4 +40,4 @@ El Diagrama de Poincaré es especialmente valioso porque, además de su simplici
 ### Plan de acción y diagrama de flujo para el desarrollo de la práctica
 Luego de haber realizado la investigación anterior, se formuló el siguiente diagrama de flujo que representa el plan de acción que se llevó a cabo para el desarrollo de la práctica: 
 <p align="center">
-<img src="parteA_diagrama.png" width="400">
+<img src="plan.png" width="400">
