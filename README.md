@@ -52,8 +52,8 @@ Luego de haber realizado la investigación anterior, se formuló el siguiente di
   
 ## Intervalos R-R y parámetros HRV
 <p align="center">
-<img src="Intervalos R-R.png" width="400">
+<img src="intervalos R-R.png" width="400">
 
 ## Diagrama de Poincaré
 <p align="center">
-<img src="Poincaré.png" width="400">
+<img src="Ponicaré.png" width="400">
