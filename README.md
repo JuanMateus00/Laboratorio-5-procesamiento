@@ -41,3 +41,19 @@ El Diagrama de Poincaré es especialmente valioso porque, además de su simplici
 Luego de haber realizado la investigación anterior, se formuló el siguiente diagrama de flujo que representa el plan de acción que se llevó a cabo para el desarrollo de la práctica: 
 <p align="center">
 <img src="plan.png" width="400">
+
+## Adquisición de la señal
+<p align="center">
+<img src="señal ecg1.png" width="400">
+
+## Diseño de filtro IIR e identificación de los picos R
+<p align="center">
+<img src="picos.png" width="400">
+  
+## Intervalos R-R y parámetros HRV
+<p align="center">
+<img src="Intervalos R-R.png" width="400">
+
+## Diagrama de Poincaré
+<p align="center">
+<img src="Poincaré.png" width="400">
