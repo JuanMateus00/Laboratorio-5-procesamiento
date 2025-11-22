@@ -43,22 +43,130 @@ Luego de haber realizado la investigación anterior, se formuló el siguiente di
 <img src="plan.png" width="400">
 
 ## Adquisición de la señal
+Se inició obteniendo la señal electrocardiofráfica (ECG) durante un periodo de tiempo de seis minutos, en ese lapso de tiempo se adquirió la señal de un voluntario realizando una lectura durante dos minutos, (actividad simpática) y en estado de reposo (actividad parasimpática), dando como resultado la siguiente señal:
+
 <p align="center">
 <img src="señal ecg1.png" width="400">
 
 ## Diseño de filtro IIR e identificación de los picos R
+
+Una vez obtenida la señal, se procedio con su procesamiento. Se aplico un flitro IIR-pasa banda para obtener un rango de frecuencias de entre 0.5 a 40Hz, para la eliminacion de componentes no deseados y reduccion de ruido, además para identificar los picos R y asi poder evaluar su comportamiento. Al aplicar este filtro, la señal que se obtuvo fue la siguiente:
+
 <p align="center">
 <img src="picos.png" width="400">
-  
+
+Esto se realizó con el siguiente código: 
+```python
+def aplicar_filtro_iir_manual(x, b, a):
+    y = [0.0] * len(x)
+    for n in range(len(x)):
+        for i in range(len(b)):
+            if n - i >= 0:
+                y[n] += b[i] * x[n - i]
+        for j in range(1, len(a)):
+            if n - j >= 0:
+                y[n] -= a[j] * y[n - j]
+        y[n] = y[n] / a[0]
+    return np.array(y)
+
+# Coeficientes del filtro
+lowcut = 0.5
+highcut = 40.0
+order = 4
+nyq = 0.5 * fs
+low = lowcut / nyq
+high = highcut / nyq
+from scipy.signal import butter
+b, a = butter(order, [low, high], btype='band')
+
+# Aplicar filtro
+ecg_filtrada = aplicar_filtro_iir_manual(ecg, b, a)
+```
 ## Intervalos R-R y parámetros HRV
+
+Posteriormente, se identificaron los picos R presentes en la señal ECG y se calcularon los intervalos R-R, construyendo con ello una nueva señal basada en estos intervalos. A su vez, se calcularon los parámetros HRV, obteeniendo lo siguiente:
+
 <p align="center">
 <img src="intervalos R-R.png" width="400">
 
+Esto, a partir del siguiente código:
+  
+```python
+# Detección de picos R usando un umbral dinámico
+t = np.linspace(0, duracion_objetivo, len(ecg))
+threshold = np.mean(ecg_filtrada) + 0.5 * np.std(ecg_filtrada)  # Umbral dinámico
+picos, _ = find_peaks(ecg_filtrada, height=threshold, distance=fs * 0.4)  # Ajuste de distancia
+
+# Calcular los intervalos R-R
+rr_intervals = np.diff(picos) / fs  # Intervalos R-R en segundos
+t_rr = t[picos[1:]]  # Tiempo correspondiente a los intervalos R-R
+
+# Cálculo de parámetros HRV (dominio del tiempo) para los intervalos R-R
+mean_rr = np.mean(rr_intervals)
+std_rr = np.std(rr_intervals)
+```
+A partir de esta información, se realizó el análisis en el dominio del tiempo, extrayendo parámetros estadísticos relevantes como la media y desviación estándar de los intervalos R-R, lo que aparece incorporado en la grafica.
+
 ## Diagrama de Poincaré
+
+Finalmente, se realizó el diagrama de Poincaré con el fin de visualizar y cuantificar la dinámica del corazón a partir de los intervalos R-R del ECG.
+
 <p align="center">
 <img src="Ponicaré.png" width="400">
 
+Esto, con el siguiente código: 
+
+```python
+RR_n = RR[:-1]
+RR_n1 = RR[1:]
+
+plt.figure(figsize=(6,6))
+plt.scatter(RR_n, RR_n1, s=10)
+plt.title("Diagrama de Poincaré")
+plt.xlabel("RR(n) [s]")
+plt.ylabel("RR(n+1) [s]")
+plt.grid()
+plt.show()
+```
+
 ## Resultados obtenidos 
+Estos fueron los resultados obtenidos a partir de los cálculos presentados anteriormente: 
 <p align="center">
 <img src="tabla.png" width="400">
+  
+###1. Estado de lectura en voz alta (activación simpática moderada):
+
+Durante la lectura en voz alta se presenta un incremento en la demanda cognitiva y respiratoria. Como resultado, se observa una mayor activación del sistema nervioso simpático y una reducción relativa de la actividad vagal. Esto se refleja de forma clara en los parámetros:
+
+- Media R–R más baja (0.72 s ≈ 83 bpm): Indica un aumento de la frecuencia cardíaca producto de la activación simpática y la inhibición vagal.
+
+- SDNN disminuido (28 ms): La variabilidad general entre latidos es menor, lo cual es típico durante tareas cognitivas que requieren atención sostenida.
+
+- SD1 bajo (18 ms): Representa disminución en la variabilidad a corto plazo, directamente asociada a la reducción de la modulación parasimpática.
+
+-SD2 moderadamente bajo (35 ms).
+
+- CSI elevado (~1.9): Refuerza el predominio simpático, pues la nube de puntos en el diagrama de Poincaré se hace más alargada y estrecha.
+
+- CVI más negativo (−1.6): Indica reducción importante de la influencia del sistema parasimpático en la señal cardíaca.
+
+Fisiológicamente, estos patrones muestran que la lectura en voz alta induce un estado de activación en el cual el organismo prioriza funciones cognitivas. El parasimpático se retira parcialmente y el simpático aumenta, permitiendo mantener foco, tono muscular y control respiratorio.
+
+###2. Estado de reposo (reactivación parasimpática y recuperación autonómica):
+
+Al finalizar la tarea y permanecer en reposo, se observa una restauración progresiva del equilibrio autonómico, con predominio del sistema nervioso parasimpático (vagal), responsable del estado de relajación y recuperación. Esto se evidencia en:
+
+- Media R–R más alta (0.92 s ≈ 65 bpm): Representa una disminución de la frecuencia cardíaca típica del estado de reposo.
+
+- SDNN aumentado (52 ms): La variabilidad global entre latidos aumenta, indicando un sistema cardiovascular más flexible y balanceado.
+
+- SD1 elevado (38 ms): Muestra una recuperación significativa de la actividad parasimpática a corto plazo.
+
+- SD2 alto (65 ms).
+
+- CSI más bajo (~1.1): El simpático disminuye.
+
+- CVI menos negativo (−0.3): Señal de incremento del sistema parasimpático.
+
+En términos fisiológicos, el organismo pasa a un estado de conservación de energía, donde el nervio vago retoma el control del ritmo cardíaco, lo que se traduce en un aumento de la HRV. Esta recuperación vagal es un indicador saludable y esperado después de finalizar una tarea cognitiva.
 
