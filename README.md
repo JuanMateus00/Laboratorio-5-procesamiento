@@ -170,3 +170,11 @@ Al finalizar la tarea y permanecer en reposo, se observa una restauración progr
 
 En términos fisiológicos, el organismo pasa a un estado de conservación de energía, donde el nervio vago retoma el control del ritmo cardíaco, lo que se traduce en un aumento de la HRV. Esta recuperación vagal es un indicador saludable y esperado después de finalizar una tarea cognitiva.
 
+## Bibliografía
+[1] Fisiología del sistema nervioso autónomo. (s/f). Medwave.cl. Recuperado el 19 de noviembre de 2025, de https://www.medwave.cl/puestadia/cursos/3347.html
+
+[2] Coon, E. (2023, julio 3). Introducción al sistema nervioso autónomo. Manual MSD versión para público general; Manuales MSD. https://www.msdmanuals.com/es/hogar/enfermedades-cerebrales-medulares-y-nerviosas/trastornos-del-sistema-nervioso-aut%C3%B3nomo/introducci%C3%B3n-al-sistema-nervioso-aut%C3%B3nomo
+
+[3] Veloza, L., Jiménez, C., Quiñones, D., Polanía, F., Pachón-Valero, L. C., & Rodríguez-Triviño, C. Y. (2019). Variabilidad de la frecuencia cardiaca como factor predictor de las enfermedades cardiovasculares. Revista colombiana de cardiologia, 26(4), 205–210. https://doi.org/10.1016/j.rccar.2019.01.006
+
+[4] Introduction to Wavelet Families - MATLAB & Simulink. (s. f.). https://la.mathworks.com/help/wavelet/gs/introduction-to-the-wavelet-families.html
